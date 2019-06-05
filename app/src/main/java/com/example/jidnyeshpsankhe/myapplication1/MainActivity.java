@@ -19,6 +19,7 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.Inflater;
 
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements API_service.Api_r
     private RecyclerView recyclerView;
     private SimpleRecyclerViewAdapter<SearchObject> recyclerAdapter;
     private static final String TAG = "Main Activity";
+    List<SearchObject> answer = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,10 +46,11 @@ public class MainActivity extends AppCompatActivity implements API_service.Api_r
         btn.setText("Let's Begin!");
         doSomething();
         //btn.setOnClickListener();
+        answer.add(new SearchObject("Hello",2,3));
         recyclerView = findViewById(R.id.recView);
-//        recyclerAdapter = new SimpleRecyclerViewAdapter<SearchObject>(result, R.layout.card_text, this);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//        recyclerView.setAdapter(recyclerAdapter);
+        recyclerAdapter = new SimpleRecyclerViewAdapter<>(answer, R.layout.card_text, this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(homeCtx));
+        recyclerView.setAdapter(recyclerAdapter);
     }
 
     public void doSomething(){
@@ -65,8 +68,9 @@ public class MainActivity extends AppCompatActivity implements API_service.Api_r
 
     @Override
     public void getResults(List<SearchObject> result) {
+        answer = result;
         for(int i = 0; i< result.size();i++){
-            Log.e(TAG, result.get(i).getDefinitipn());
+            Log.e(TAG, answer.get(i).getDefinitipn());
 ;        }
     }
 
