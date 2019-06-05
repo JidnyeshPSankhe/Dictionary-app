@@ -36,9 +36,11 @@ public class API_service  {
     }
     private Context apiCtx;
     private RequestQueue queue;
-    public void initAPI(Context ctx) {
+    Api_results listener;
+    public void initAPI(Context ctx, Api_results listener) {
         apiCtx = ctx;
         queue = Volley.newRequestQueue(apiCtx);
+        this.listener = listener;
     }
 
 
@@ -51,13 +53,15 @@ public class API_service  {
 
                     try {
 
-                        List<SearchObject> Resultlist = new ArrayList<>();
+                        List<SearchObject> resultList = new ArrayList<>();
                         for(int i = 0;i< response.getJSONArray("list").length();i++){
                             String definition = response.getJSONArray("list").getJSONObject(0).get("definition").toString();
                             int upVotes = (int)response.getJSONArray("list").getJSONObject(0).get("thumbs_up");
                             int downVotes = (int)response.getJSONArray("list").getJSONObject(0).get("thumbs_down");
-                            Resultlist.add(new SearchObject(definition,upVotes,downVotes));
+                            resultList.add(new SearchObject(definition,upVotes,downVotes));
                         }
+                        //Log.e(TAG,resultList.toString());
+                        listener.getResults(resultList);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -76,7 +80,13 @@ public class API_service  {
                 return params;
             }
         };
+
         queue.add(getRequest);
+
+    }
+
+    public interface Api_results{
+        void getResults(List<SearchObject> result);
 
     }
 
