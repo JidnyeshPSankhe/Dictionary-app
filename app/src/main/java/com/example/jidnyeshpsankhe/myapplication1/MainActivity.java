@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.mashape.unirest.http.HttpResponse;
@@ -45,10 +46,8 @@ public class MainActivity extends AppCompatActivity {
 //            }});
 
         btn.setOnClickListener(btn1 -> {
-            mApi.execute(search.getText().toString());
-
-
-
+            //mApi.execute(search.getText().toString());
+            mApi.getResults(search.getText().toString(), homeCtx);
         });
     }
 }
