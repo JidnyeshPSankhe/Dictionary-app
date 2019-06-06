@@ -10,34 +10,47 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import com.example.jidnyeshpsankhe.myapplication1.Adapters.SimpleRecyclerViewAdapter;
+
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
+
 
 public class MainActivity extends AppCompatActivity implements API_service.Api_results, SimpleRecyclerViewAdapter.SimpleRecyclerViewAdapterListener<SearchObject> {
-    EditText search;
-    Button btn;
+
+    EditText term;
+    Button search;
+    ImageButton upvotes_sort;
+    ImageButton downvotes_sort;
     API_service mApi;
     Context homeCtx;
     ProgressBar pb;
+
+
     private API_service.Api_results listener;
     private RecyclerView recyclerView;
     private SimpleRecyclerViewAdapter<SearchObject> recyclerAdapter;
     private static final String TAG = "Main Activity";
-    List<SearchObject> answer = new ArrayList<>();
+    ArrayList<SearchObject> result_list = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        search = findViewById(R.id.editText);
-        btn = findViewById(R.id.button_start);
+        term = findViewById(R.id.editText);
+        search = findViewById(R.id.button_start);
+        upvotes_sort = findViewById(R.id.upvotes_sort);
+        downvotes_sort = findViewById(R.id.downvotes_sort) ;
+
         mApi = API_service.getInstance();
         homeCtx = this;
         listener = (API_service.Api_results) homeCtx;
         mApi.initAPI(homeCtx,listener);
-        btn.setText("Search");
-        doSomething();
+        search.setText("Search");
+
+        initClickListener();
         recyclerView = findViewById(R.id.recView);
 
         loadRecycle();
@@ -45,33 +58,44 @@ public class MainActivity extends AppCompatActivity implements API_service.Api_r
 
     private void loadRecycle() {
          pb = findViewById(R.id.progressBar);
-        pb.setVisibility(View.GONE);
-        //progressBar.showContextMenu();
+         pb.setVisibility(View.GONE);
+
     }
 
-    public void doSomething(){
-        btn.setOnClickListener(btn1 -> {
-            //mApi.execute(search.getText().toString());
-            mApi.getResults(search.getText().toString(), homeCtx);
+    public void initClickListener(){
+        search.setOnClickListener(x -> {
+            mApi.getResults(term.getText().toString(), homeCtx);
+            pb.setVisibility(View.VISIBLE);
 
             });
+        upvotes_sort.setOnClickListener(x -> {
+            Collections.sort(result_list, Collections.reverseOrder());
+            recyclerAdapter.notifyDataSetChanged();
+            Log.d(TAG,"The first one is"+result_list.get(0).toString());
+        });
+
+        downvotes_sort.setOnClickListener(x -> {
+
+
+        });
     }
 
     @Override
-    public void getResults(List<SearchObject> result) {
-
-        recyclerAdapter = new SimpleRecyclerViewAdapter<SearchObject>(result, R.layout.card_text, this);
+    public void getResults(ArrayList<SearchObject> result) {
+        result_list = result;
+        recyclerAdapter = new SimpleRecyclerViewAdapter<>(result_list, R.layout.card_text, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(homeCtx));
         recyclerView.setAdapter(recyclerAdapter);
-        if(!answer.isEmpty()) {
-            recyclerAdapter.notifyDataSetChanged();
+        if(!result_list.isEmpty()) {
             pb.setVisibility(View.GONE);
+            recyclerAdapter.notifyDataSetChanged();
+
         }
     }
 
     @Override
     public void bindItemToView(SearchObject item, int position, RecyclerView.ViewHolder viewHolder) {
-        Log.e(TAG, "item is"+item.getDownVotes());
+
         TextView title = viewHolder.itemView.findViewById(R.id.textviewCardTextTitle);
         TextView upvote = viewHolder.itemView.findViewById(R.id.upvotes);
         TextView downvote = viewHolder.itemView.findViewById(R.id.downvotes);
