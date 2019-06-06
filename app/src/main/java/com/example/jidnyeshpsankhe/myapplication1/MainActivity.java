@@ -1,7 +1,6 @@
 package com.example.jidnyeshpsankhe.myapplication1;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,23 +10,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import com.example.jidnyeshpsankhe.myapplication1.Adapters.SimpleRecyclerViewAdapter;
-import android.widget.LinearLayout;
-import android.widget.Toast;
-
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
-
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 public class MainActivity extends AppCompatActivity implements API_service.Api_results, SimpleRecyclerViewAdapter.SimpleRecyclerViewAdapterListener<SearchObject> {
     EditText search;
     Button btn;
     API_service mApi;
     Context homeCtx;
+    ProgressBar pb;
     private API_service.Api_results listener;
     private RecyclerView recyclerView;
     private SimpleRecyclerViewAdapter<SearchObject> recyclerAdapter;
@@ -43,40 +36,49 @@ public class MainActivity extends AppCompatActivity implements API_service.Api_r
         homeCtx = this;
         listener = (API_service.Api_results) homeCtx;
         mApi.initAPI(homeCtx,listener);
-        btn.setText("Let's Begin!");
+        btn.setText("Search");
         doSomething();
-        //btn.setOnClickListener();
-        answer.add(new SearchObject("Hello",2,3));
         recyclerView = findViewById(R.id.recView);
-        recyclerAdapter = new SimpleRecyclerViewAdapter<>(answer, R.layout.card_text, this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(homeCtx));
-        recyclerView.setAdapter(recyclerAdapter);
+
+        loadRecycle();
+    }
+
+    private void loadRecycle() {
+         pb = findViewById(R.id.progressBar);
+        pb.setVisibility(View.GONE);
+        //progressBar.showContextMenu();
     }
 
     public void doSomething(){
-//        btn.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View view) {
-//                Log.d(TAG, "Pressed");
-//            }});
-
         btn.setOnClickListener(btn1 -> {
             //mApi.execute(search.getText().toString());
             mApi.getResults(search.getText().toString(), homeCtx);
-        });
+
+            });
     }
 
     @Override
     public void getResults(List<SearchObject> result) {
-        answer = result;
-        for(int i = 0; i< result.size();i++){
-            Log.e(TAG, answer.get(i).getDefinitipn());
-;        }
+
+        recyclerAdapter = new SimpleRecyclerViewAdapter<SearchObject>(result, R.layout.card_text, this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(homeCtx));
+        recyclerView.setAdapter(recyclerAdapter);
+        if(!answer.isEmpty()) {
+            recyclerAdapter.notifyDataSetChanged();
+            pb.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void bindItemToView(SearchObject item, int position, RecyclerView.ViewHolder viewHolder) {
+        Log.e(TAG, "item is"+item.getDownVotes());
+        TextView title = viewHolder.itemView.findViewById(R.id.textviewCardTextTitle);
+        TextView upvote = viewHolder.itemView.findViewById(R.id.upvotes);
+        TextView downvote = viewHolder.itemView.findViewById(R.id.downvotes);
 
+        title.setText(item.getDefinitipn());
+        upvote.setText(String.format(getString(R.string.thumbs_up), item.getUpVotes()));
+        downvote.setText(String.format(getString(R.string.thumbs_down), item.getUpVotes()));
     }
 
     @Override

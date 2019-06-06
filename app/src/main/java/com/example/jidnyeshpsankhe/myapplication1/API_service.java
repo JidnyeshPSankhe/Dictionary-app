@@ -55,12 +55,12 @@ public class API_service  {
 
                         List<SearchObject> resultList = new ArrayList<>();
                         for(int i = 0;i< response.getJSONArray("list").length();i++){
-                            String definition = response.getJSONArray("list").getJSONObject(0).get("definition").toString();
-                            int upVotes = (int)response.getJSONArray("list").getJSONObject(0).get("thumbs_up");
-                            int downVotes = (int)response.getJSONArray("list").getJSONObject(0).get("thumbs_down");
+                            String definition = response.getJSONArray("list").getJSONObject(i).get("definition").toString();
+                            int upVotes = (int)response.getJSONArray("list").getJSONObject(i).get("thumbs_up");
+                            int downVotes = (int)response.getJSONArray("list").getJSONObject(i).get("thumbs_down");
                             resultList.add(new SearchObject(definition,upVotes,downVotes));
                         }
-                        //Log.e(TAG,resultList.toString());
+                        Log.e(TAG,response.getJSONArray("list").toString());
                         listener.getResults(resultList);
                     } catch (JSONException e) {
                         e.printStackTrace();

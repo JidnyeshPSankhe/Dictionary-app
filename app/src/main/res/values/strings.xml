@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">My Application1</string>
+    <string name="thumbs_up">Thumbs Up: %d</string>
+    <string name="thumbs_down">Thumbs down: %d</string>
 </resources>

@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import java.util.List;
+
 public class SimpleRecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<T> items;
     private int itemLayout;
@@ -22,12 +24,6 @@ public class SimpleRecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerV
         public SimpleRecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
             final SimpleRecyclerViewHolder holder = this;
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.recyclerItemClicked(item, position, holder);
-                }
-            });
         }
 
         public void setItem(T item, int position) {
