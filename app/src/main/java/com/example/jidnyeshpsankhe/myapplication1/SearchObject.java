@@ -1,7 +1,7 @@
 package com.example.jidnyeshpsankhe.myapplication1;
 import java.util.Comparator;
 
-public class SearchObject implements Comparable<SearchObject>{
+public class SearchObject {
 
     private String definitipn;
     private int upVotes;
@@ -25,9 +25,9 @@ public class SearchObject implements Comparable<SearchObject>{
         this.downVotes = downVotes;
     }
 
-    @Override
-    public int compareTo(SearchObject o) {
-        int comparevotes=(o).getUpVotes();
-        return this.getUpVotes() - comparevotes;
-    }
+//    @Override
+//    public int compareTo(SearchObject o) {
+//        int comparevotes=(o).getUpVotes();
+//        return this.getUpVotes() - comparevotes;
+//    }
 }

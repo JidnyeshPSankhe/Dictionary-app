@@ -16,6 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="20dp"
         android:layout_marginStart="85dp"
+        android:drawableLeft="@drawable/thumbs_up"
+        android:drawablePadding="5dp"
         android:textStyle="bold" />
 
     <TextView
@@ -23,6 +25,8 @@
         android:layout_width="match_parent"
         android:layout_height="20dp"
         android:layout_marginStart="85dp"
+        android:drawableLeft="@drawable/thumbs_down"
+        android:drawablePadding="5dp"
         android:textStyle="bold" />
 
 </LinearLayout>
