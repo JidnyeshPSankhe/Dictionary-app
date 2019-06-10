@@ -49,15 +49,11 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recView"
         android:layout_width="match_parent"
-        android:layout_height="467dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_height="400dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        app:layout_constraintTop_toBottomOf="@+id/upvotes_sort" />
 
     <ImageButton
         android:id="@+id/upvotes_sort"
@@ -68,7 +64,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/downvotes_sort"
         app:layout_constraintVertical_bias="0.00"
-        app:srcCompat="@drawable/thumbs_up" />
+        app:srcCompat="@drawable/thumb_up" />
 
     <ImageButton
         android:id="@+id/downvotes_sort"
@@ -79,7 +75,7 @@
         app:layout_constraintStart_toEndOf="@+id/upvotes_sort"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/thumbs_down" />
+        app:srcCompat="@drawable/thumb_down" />
 
 
 </android.support.constraint.ConstraintLayout>

@@ -3,12 +3,12 @@ import java.util.Comparator;
 
 public class SearchObject {
 
-    private String definitipn;
+    private String definition;
     private int upVotes;
     private int downVotes;
 
-    public String getDefinitipn() {
-        return definitipn;
+    public String getDefinition() {
+        return definition;
     }
 
     public int getUpVotes() {
@@ -20,14 +20,9 @@ public class SearchObject {
     }
 
     public SearchObject(String definitipn, int upVotes, int downVotes){
-        this.definitipn= definitipn;
+        this.definition= definitipn;
         this.upVotes = upVotes;
         this.downVotes = downVotes;
     }
 
-//    @Override
-//    public int compareTo(SearchObject o) {
-//        int comparevotes=(o).getUpVotes();
-//        return this.getUpVotes() - comparevotes;
-//    }
 }

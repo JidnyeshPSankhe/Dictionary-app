@@ -5,8 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,7 +15,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,30 +57,16 @@ public class MainActivity extends AppCompatActivity implements API_service.Api_r
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
-        // Save UI state changes to the savedInstanceState.
-        // This bundle will be passed to onCreate if the process is
-        // killed and restarted.
-//        savedInstanceState.putBoolean("MyBoolean", true);
-//        savedInstanceState.putDouble("myDouble", 1.9);
-//        savedInstanceState.putInt("MyInt", 1);
         savedInstanceState.putString("term", term.getText().toString());
-        Log.e(TAG,"firedddd");
-        // etc.
+
     }
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        // Restore UI state from the savedInstanceState.
-        // This bundle has also been passed to onCreate.
-//        boolean myBoolean = savedInstanceState.getBoolean("MyBoolean");
-//        double myDouble = savedInstanceState.getDouble("myDouble");
-//        int myInt = savedInstanceState.getInt("MyInt");
         String word = savedInstanceState.getString("term");
         term.setText(word);
-        Log.e(TAG,"firedddadasddad");
     }
-
 
     public void initClickListener(){
 
@@ -94,7 +77,8 @@ public class MainActivity extends AppCompatActivity implements API_service.Api_r
             }});
 
         upvotes_sort.setOnClickListener(x -> {
-            sort_upvotes();
+            sort_upvotes(result_list);
+            recyclerAdapter.notifyDataSetChanged();
         });
 
         downvotes_sort.setOnClickListener(x -> {
@@ -102,9 +86,9 @@ public class MainActivity extends AppCompatActivity implements API_service.Api_r
         });
     }
 
-    public void sort_upvotes() {
+    public ArrayList<SearchObject> sort_upvotes(ArrayList<SearchObject> result_list) {
         Collections.sort(result_list, (o1, o2) -> Integer.compare(o2.getUpVotes(),o1.getUpVotes()));
-        recyclerAdapter.notifyDataSetChanged();
+        return result_list;
 
     }
 
@@ -139,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements API_service.Api_r
         TextView upvote = viewHolder.itemView.findViewById(R.id.upvotes);
         TextView downvote = viewHolder.itemView.findViewById(R.id.downvotes);
 
-        title.setText(item.getDefinitipn());
+        title.setText(item.getDefinition());
         upvote.setText(String.valueOf(item.getUpVotes()));
         downvote.setText(String.valueOf( item.getUpVotes()));
     }
