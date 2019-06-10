@@ -77,8 +77,8 @@ public class API_service  {
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String>  params = new HashMap<>();
-                params.put("X-RapidAPI-Host", "mashape-community-urban-dictionary.p.rapidapi.com");
-                params.put("X-RapidAPI-Key", "e3d65ef4bbmshbce65ce217c1b15p11486ejsn254a219e26d7");
+                params.put("X-RapidAPI-Host", "include your key here");
+                params.put("X-RapidAPI-Key", "include your key here");
 
                 return params;
             }
